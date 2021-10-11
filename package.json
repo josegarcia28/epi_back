@@ -1,0 +1,30 @@
+{
+  "name": "epi_back",
+  "version": "1.0.0",
+  "description": "API PARA SISTEMA EPI",
+  "main": "index.ts",
+  "scripts": {
+    "start:dev": "nodemon dist/index",
+    "html": "copyfiles --up 1 public/*.html dist",
+    "build": "tsc && npm run html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jose Garcia",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.10.3",
+    "@types/sequelize": "^4.28.10",
+    "sequelize-cli": "^6.2.0",
+    "ts-node": "^10.2.1",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.0",
+    "sequelize": "^6.6.5"
+  }
+}
