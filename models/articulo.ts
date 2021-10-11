@@ -1,14 +1,15 @@
 import { DataTypes } from 'sequelize';
 import { db } from '../bd/bd';
+import Tipo_art from './tipo_art';
 
 
 export const Articulo = db.define('Articulo',{
     cod_art: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(6),
         primaryKey: true,
       }, 
     cod_tipo: {
-        type: new DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
     nombre: {
@@ -16,15 +17,16 @@ export const Articulo = db.define('Articulo',{
         allowNull: false,
     },
     descripcion: {
-        type: new DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
     },
     talla: {
-        type: new DataTypes.STRING,
+        type: DataTypes.STRING(6),
         allowNull: false,
     },
     color: {
-        type: new DataTypes.STRING,
+        type: DataTypes.STRING(120),
         allowNull: false,
     }
 });
+Articulo.belongsTo(Tipo_art);

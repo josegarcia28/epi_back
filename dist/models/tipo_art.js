@@ -8,21 +8,8 @@ const Tipo_art = bd_1.db.define('tipo_arts', {
         primaryKey: true,
     },
     nombre: {
-        type: new sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
-    /*createdAt: {
-        type: new DataTypes.DATE,
-        allowNull: false,
-    },
-    updatedAt: {
-        type: new DataTypes.DATE,
-        allowNull: false,
-    },*/
 });
-/*console.log(Tipo_art === db.models.Tipo_art); // true
-(async () => {
-    await db.sync({ force: false, alter: false});
-    // Code here
-  })();*/
 exports.default = Tipo_art;
