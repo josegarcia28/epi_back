@@ -29,4 +29,10 @@ export const Articulo = db.define('Articulo',{
         allowNull: false,
     }
 });
-Articulo.belongsTo(Tipo_art);
+
+Articulo.belongsTo(Tipo_art, {
+    foreignKey: 'cod_tipo'
+});
+Tipo_art.hasMany(Articulo);
+/*Articulo.hasMany(Tipo_art);
+Tipo_art.belongsTo(Articulo);*/

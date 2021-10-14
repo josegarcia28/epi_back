@@ -33,4 +33,9 @@ exports.Articulo = bd_1.db.define('Articulo', {
         allowNull: false,
     }
 });
-exports.Articulo.belongsTo(tipo_art_1.default);
+exports.Articulo.belongsTo(tipo_art_1.default, {
+    foreignKey: 'cod_tipo'
+});
+tipo_art_1.default.hasMany(exports.Articulo);
+/*Articulo.hasMany(Tipo_art);
+Tipo_art.belongsTo(Articulo);*/ 

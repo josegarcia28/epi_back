@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Articulo } from '../models/articulo';
+import Tipo_art from '../models/tipo_art';
 
 
 export default class ArticuloController {
@@ -25,26 +26,16 @@ export default class ArticuloController {
             }
     }
 
-    /*static async update(req: Request, res: Response){
+    static async update(req: Request, res: Response){
         let params = req.body;
         let id = req.params.id;
         try{
-            let buscar = await getRepository(articulo).findOne(id);
+            let buscar = await Articulo.update(params, {where: { cod_art: id}});
             if(buscar){
-                getRepository(articulo).merge(buscar, params);
-                let result = await getRepository(articulo).save(buscar);
-                if(result){
-                    return res.status(200).send({
-                        status: 'success',
-                        mensaje: 'se ha actualizado correctamente',
-                    }); 
-                } else {
-                    console.log('error');
-                    return res.status(400).send({
-                        status: 'error',
-                        mensaje: 'Problemas al actualizar'
-                    });
-                }
+                return res.status(200).send({
+                    status: 'success',
+                    mensaje: 'se ha actualizado correctamente',
+                }); 
             } else {
                 return res.status(200).send({
                     status: 'success',
@@ -63,7 +54,7 @@ export default class ArticuloController {
     static async delete(req: Request, res: Response){
         let id = req.params.id;
         try{
-            let resul = await getRepository(articulo).delete(id);
+            let resul = await Articulo.destroy({ where: {cod_art: id}});
             if(resul){
                 return res.status(200).send({
                     status: 'success',
@@ -89,7 +80,7 @@ export default class ArticuloController {
 
     static async list(req: Request, res: Response){
         try{
-            let articulos = await getRepository(articulo).find();
+            let articulos = await Articulo.findAll();
             return res.status(200).send({
                 status: 'success',
                 articulos
@@ -106,7 +97,10 @@ export default class ArticuloController {
     static async detail(req: Request, res: Response){
         let id = req.params.id;
         try{
-            let result = await getRepository(articulo).findOne(id);
+            let result = await Articulo.findOne({
+                where: { cod_art: id},
+                include: Tipo_art
+            });
             return res.status(200).send({
                 status: 'success',
                 result
@@ -119,5 +113,5 @@ export default class ArticuloController {
         }
        
     }
-*/
+
 }

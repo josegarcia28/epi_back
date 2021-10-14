@@ -17,7 +17,7 @@ router.delete('/empleado/:id', EmpleadoController.delete);*/
 // Articulo
 //router.get('/articulo/list',ArticuloController.list); 
 router.post('/articulo/new',ArticuloController.save); 
-//router.get('/articulo/:id',ArticuloController.detail); 
+router.get('/articulo/:id',ArticuloController.detail); 
 //router.put('/articulo/:id', ArticuloController.update);
 //router.delete('/articulo/:id', ArticuloController.delete);
 
