@@ -8,12 +8,15 @@ export const Empleado = db.define('Empleado',{
         primaryKey: true,
       }, 
     nombre: {
-        type: new DataTypes.STRING(30),
+        type: new DataTypes.STRING(100),
         allowNull: false,
     },
     apellido: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.STRING(100),
         allowNull: false,
+    },
+    descripcion: {
+        type: DataTypes.STRING
     },
     t_calzado: {
         type: new DataTypes.STRING(5),

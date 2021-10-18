@@ -28,11 +28,8 @@ export const Articulo = db.define('Articulo',{
         type: DataTypes.STRING(120),
         allowNull: false,
     }
+    
 });
 
-Articulo.belongsTo(Tipo_art, {
-    foreignKey: 'cod_tipo'
-});
-Tipo_art.hasMany(Articulo);
-/*Articulo.hasMany(Tipo_art);
-Tipo_art.belongsTo(Articulo);*/
+Articulo.belongsTo(Tipo_art, {foreignKey: 'cod_tipo'});
+Tipo_art.hasMany(Articulo, { foreignKey: 'cod_tipo'});

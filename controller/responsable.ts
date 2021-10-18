@@ -1,14 +1,12 @@
-/*import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
-import {responsable} from '../entity/responsable';
+import { Request, Response } from 'express';
+import {Responsable} from '../models/responsable';
 
 export default class ResponsableController {
  
    static async save(req: Request, res: Response){
         var params = req.body;
             try{
-                let newresponsable = getRepository(responsable).create(params);
-                let result = await getRepository(responsable).save(newresponsable);
+                let result = await Responsable.create(params);
                 if(result){
                     return res.status(200).send({
                         status: 'success',
@@ -30,26 +28,16 @@ export default class ResponsableController {
         let params = req.body;
         let id = req.params.id;
         try{
-            let buscar = await getRepository(responsable).findOne(id);
+            let buscar = await Responsable.update(params, {where: { cod_resp: id}});
             if(buscar){
-                getRepository(responsable).merge(buscar, params);
-                let result = await getRepository(responsable).save(buscar);
-                if(result){
-                    return res.status(200).send({
-                        status: 'success',
-                        mensaje: 'se ha actualizado correctamente',
-                    }); 
-                } else {
-                    console.log('error');
-                    return res.status(400).send({
-                        status: 'error',
-                        mensaje: 'Problemas al actualizar'
-                    });
-                }
+                return res.status(200).send({
+                    status: 'success',
+                    mensaje: 'se ha actualizado correctamente',
+                }); 
             } else {
                 return res.status(200).send({
                     status: 'success',
-                    mensaje: 'responsable no encontrado',
+                    mensaje: 'Usuario no encontrado',
                 }); 
             }
             
@@ -61,10 +49,10 @@ export default class ResponsableController {
             }); 
         }
     }
-    static async delete(req: Request, res: Response){
+    /*static async delete(req: Request, res: Response){
         let id = req.params.id;
         try{
-            let resul = await getRepository(responsable).delete(id);
+            let resul = await getRepository(Proveedor).delete(id);
             if(resul){
                 return res.status(200).send({
                     status: 'success',
@@ -86,14 +74,22 @@ export default class ResponsableController {
             }); 
         }
 
-    }
+    }*/
 
     static async list(req: Request, res: Response){
+        const { limite = 5, desde = 0 } = req.query;
         try{
-            let responsables = await getRepository(responsable).find();
+            const [prov, total] = await Promise.all([
+                Responsable.findAll({
+                    offset: Number(desde), 
+                    limit: Number(limite)
+                }),
+                Responsable.count()
+            ]);
             return res.status(200).send({
                 status: 'success',
-                responsables
+                total,
+                prov
             });
         } catch (error){
             return res.status(400).send({
@@ -105,9 +101,11 @@ export default class ResponsableController {
     }
 
     static async detail(req: Request, res: Response){
-        let id = req.params.id;
+        let cod_resp = req.params.id;
         try{
-            let result = await getRepository(responsable).findOne(id);
+            let result = await Responsable.findOne({
+                where: { cod_resp: cod_resp}
+            });
             return res.status(200).send({
                 status: 'success',
                 result
@@ -121,4 +119,4 @@ export default class ResponsableController {
        
     }
 
-}*/
+}

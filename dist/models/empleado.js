@@ -9,12 +9,15 @@ exports.Empleado = bd_1.db.define('Empleado', {
         primaryKey: true,
     },
     nombre: {
-        type: new sequelize_1.DataTypes.STRING(30),
+        type: new sequelize_1.DataTypes.STRING(100),
         allowNull: false,
     },
     apellido: {
-        type: sequelize_1.DataTypes.STRING(30),
+        type: sequelize_1.DataTypes.STRING(100),
         allowNull: false,
+    },
+    descripcion: {
+        type: sequelize_1.DataTypes.STRING
     },
     t_calzado: {
         type: new sequelize_1.DataTypes.STRING(5),

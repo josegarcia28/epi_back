@@ -9,13 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const empleado_1 = require("../models/empleado");
-class EmpleadoController {
+const proveedor_1 = require("../models/proveedor");
+class ProveedorController {
     static save(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             var params = req.body;
             try {
-                let result = yield empleado_1.Empleado.create(params);
+                let result = yield proveedor_1.Proveedor.create(params);
                 if (result) {
                     return res.status(200).send({
                         status: 'success',
@@ -38,7 +38,7 @@ class EmpleadoController {
             let params = req.body;
             let id = req.params.id;
             try {
-                let buscar = yield empleado_1.Empleado.update(params, { where: { cod_emp: id } });
+                let buscar = yield proveedor_1.Proveedor.update(params, { where: { cod_prov: id } });
                 if (buscar) {
                     return res.status(200).send({
                         status: 'success',
@@ -64,7 +64,7 @@ class EmpleadoController {
     /*static async delete(req: Request, res: Response){
         let id = req.params.id;
         try{
-            let resul = await getRepository(empleado).delete(id);
+            let resul = await getRepository(Proveedor).delete(id);
             if(resul){
                 return res.status(200).send({
                     status: 'success',
@@ -91,17 +91,17 @@ class EmpleadoController {
         return __awaiter(this, void 0, void 0, function* () {
             const { limite = 5, desde = 0 } = req.query;
             try {
-                const [empleado, total] = yield Promise.all([
-                    empleado_1.Empleado.findAll({
+                const [prov, total] = yield Promise.all([
+                    proveedor_1.Proveedor.findAll({
                         offset: Number(desde),
                         limit: Number(limite)
                     }),
-                    empleado_1.Empleado.count()
+                    proveedor_1.Proveedor.count()
                 ]);
                 return res.status(200).send({
                     status: 'success',
                     total,
-                    empleado
+                    prov
                 });
             }
             catch (error) {
@@ -114,10 +114,10 @@ class EmpleadoController {
     }
     static detail(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            let cod_emp = req.params.id;
+            let cod_prov = req.params.id;
             try {
-                let result = yield empleado_1.Empleado.findOne({
-                    where: { cod_emp: cod_emp }
+                let result = yield proveedor_1.Proveedor.findOne({
+                    where: { cod_prov: cod_prov }
                 });
                 return res.status(200).send({
                     status: 'success',
@@ -133,4 +133,4 @@ class EmpleadoController {
         });
     }
 }
-exports.default = EmpleadoController;
+exports.default = ProveedorController;

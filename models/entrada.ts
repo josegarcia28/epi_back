@@ -1,11 +1,11 @@
-import { DataTypes, INTEGER } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import { db } from '../bd/bd';
 import { Articulo } from './articulo';
-import { Empleado } from './empleado';
+import { Proveedor } from './proveedor';
 
 
- export const Asignacion = db.define('asignacion',{
-    cod_asig: {
+ export const Entrada = db.define('entrada',{
+    cod_entra: {
         type: DataTypes.STRING(6),
         primaryKey: true
     }, 
@@ -20,15 +20,22 @@ import { Empleado } from './empleado';
     descripcion: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    cif_pro: {
+        type: DataTypes.STRING(30),
+        allowNull: false,
     }
 });
 
-export const Detalle_asig = db.define('detalle_asig',{
-        reg_asig: {
+Entrada.belongsTo(Proveedor, {foreignKey: 'cif_pro'});
+Proveedor.hasMany(Entrada, { foreignKey: 'cif_pro'});
+
+export const Detalle_entra = db.define('detalle_entra',{
+        reg_entra: {
             type: DataTypes.INTEGER,
             allowNull: false,
         }, 
-        cod_asig: {
+        cod_entra: {
             type: DataTypes.STRING(6),
             allowNull: false,
         },
@@ -40,7 +47,7 @@ export const Detalle_asig = db.define('detalle_asig',{
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        cod_emp: {
+        cod_prov: {
             type: DataTypes.STRING(6),
             allowNull: false,
         }
@@ -49,17 +56,17 @@ export const Detalle_asig = db.define('detalle_asig',{
         indexes: [
             {
                 unique: true,
-                fields: ['reg_asig', 'cod_asig']
+                fields: ['reg_asig', 'cod_entra']
             }
         ]
     }
 );
 
-Detalle_asig.belongsTo(Asignacion, {foreignKey: 'cod_asig'});
-Asignacion.hasMany(Detalle_asig, { foreignKey: 'cod_asig'});
+Detalle_entra.belongsTo(Entrada, {foreignKey: 'cod_entra'});
+Entrada.hasMany(Detalle_entra, { foreignKey: 'cod_entra'});
 
-Detalle_asig.belongsTo(Articulo, {foreignKey: 'cod_art'});
-Articulo.hasMany(Detalle_asig, { foreignKey: 'cod_art'});
+Detalle_entra.belongsTo(Articulo, {foreignKey: 'cod_art'});
+Articulo.hasMany(Detalle_entra, { foreignKey: 'cod_art'});
 
-Detalle_asig.belongsTo(Empleado, {foreignKey: 'cod_emp'});
-Empleado.hasMany(Detalle_asig, { foreignKey: 'cod_emp'});
+Detalle_entra.belongsTo(Proveedor, {foreignKey: 'cod_prov'});
+Proveedor.hasMany(Detalle_entra, { foreignKey: 'cod_prov'});

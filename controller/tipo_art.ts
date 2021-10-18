@@ -80,11 +80,20 @@ export default class Tipo_artController {
     }
 
    static async list(req: Request, res: Response){
+        const { limite = 5, desde = 0 } = req.query;
         try{
-            const tipo_arts = await Tipo_art.findAll();
+            const [Tipo, total] = await Promise.all([
+                Tipo_art.findAll({
+                    offset: Number(desde), 
+                    limit: Number(limite)
+                }),
+                Tipo_art.count()
+
+            ]);
             return res.status(200).send({
                 status: 'success',
-                tipo_arts
+                total,
+                Tipo
             });
         } catch (error){
             return res.status(400).send({

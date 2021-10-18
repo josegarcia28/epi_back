@@ -51,6 +51,7 @@ export default class ArticuloController {
             }); 
         }
     }
+    
     static async delete(req: Request, res: Response){
         let id = req.params.id;
         try{
@@ -79,11 +80,19 @@ export default class ArticuloController {
     }
 
     static async list(req: Request, res: Response){
+        const { limite = 5, desde = 0 } = req.query;
         try{
-            let articulos = await Articulo.findAll();
+            const [articulo, total] = await Promise.all([
+                Articulo.findAll({
+                    offset: Number(desde), 
+                    limit: Number(limite)
+                }),
+                Articulo.count()
+            ]);
             return res.status(200).send({
                 status: 'success',
-                articulos
+                total,
+                articulo
             });
         } catch (error){
             return res.status(400).send({

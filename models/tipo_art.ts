@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import { db } from '../bd/bd';
-import { Articulo } from './articulo';
 
 
 const Tipo_art = db.define('tipo_arts',{

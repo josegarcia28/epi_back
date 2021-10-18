@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Detalle_asig = exports.Asignacion = void 0;
+exports.Detalle_entra = exports.Entrada = void 0;
 const sequelize_1 = require("sequelize");
 const bd_1 = require("../bd/bd");
 const articulo_1 = require("./articulo");
-const empleado_1 = require("./empleado");
-exports.Asignacion = bd_1.db.define('asignacion', {
-    cod_asig: {
+const proveedor_1 = require("./proveedor");
+exports.Entrada = bd_1.db.define('entrada', {
+    cod_entra: {
         type: sequelize_1.DataTypes.STRING(6),
         primaryKey: true
     },
@@ -21,14 +21,20 @@ exports.Asignacion = bd_1.db.define('asignacion', {
     descripcion: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
+    },
+    cif_pro: {
+        type: sequelize_1.DataTypes.STRING(30),
+        allowNull: false,
     }
 });
-exports.Detalle_asig = bd_1.db.define('detalle_asig', {
-    reg_asig: {
+exports.Entrada.belongsTo(proveedor_1.Proveedor, { foreignKey: 'cif_pro' });
+proveedor_1.Proveedor.hasMany(exports.Entrada, { foreignKey: 'cif_pro' });
+exports.Detalle_entra = bd_1.db.define('detalle_entra', {
+    reg_entra: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
     },
-    cod_asig: {
+    cod_entra: {
         type: sequelize_1.DataTypes.STRING(6),
         allowNull: false,
     },
@@ -40,7 +46,7 @@ exports.Detalle_asig = bd_1.db.define('detalle_asig', {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
     },
-    cod_emp: {
+    cod_prov: {
         type: sequelize_1.DataTypes.STRING(6),
         allowNull: false,
     }
@@ -48,13 +54,13 @@ exports.Detalle_asig = bd_1.db.define('detalle_asig', {
     indexes: [
         {
             unique: true,
-            fields: ['reg_asig', 'cod_asig']
+            fields: ['reg_asig', 'cod_entra']
         }
     ]
 });
-exports.Detalle_asig.belongsTo(exports.Asignacion, { foreignKey: 'cod_asig' });
-exports.Asignacion.hasMany(exports.Detalle_asig, { foreignKey: 'cod_asig' });
-exports.Detalle_asig.belongsTo(articulo_1.Articulo, { foreignKey: 'cod_art' });
-articulo_1.Articulo.hasMany(exports.Detalle_asig, { foreignKey: 'cod_art' });
-exports.Detalle_asig.belongsTo(empleado_1.Empleado, { foreignKey: 'cod_emp' });
-empleado_1.Empleado.hasMany(exports.Detalle_asig, { foreignKey: 'cod_emp' });
+exports.Detalle_entra.belongsTo(exports.Entrada, { foreignKey: 'cod_entra' });
+exports.Entrada.hasMany(exports.Detalle_entra, { foreignKey: 'cod_entra' });
+exports.Detalle_entra.belongsTo(articulo_1.Articulo, { foreignKey: 'cod_art' });
+articulo_1.Articulo.hasMany(exports.Detalle_entra, { foreignKey: 'cod_art' });
+exports.Detalle_entra.belongsTo(proveedor_1.Proveedor, { foreignKey: 'cod_prov' });
+proveedor_1.Proveedor.hasMany(exports.Detalle_entra, { foreignKey: 'cod_prov' });

@@ -96,11 +96,19 @@ class ArticuloController {
     }
     static list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const { limite = 5, desde = 0 } = req.query;
             try {
-                let articulos = yield articulo_1.Articulo.findAll();
+                const [articulo, total] = yield Promise.all([
+                    articulo_1.Articulo.findAll({
+                        offset: Number(desde),
+                        limit: Number(limite)
+                    }),
+                    articulo_1.Articulo.count()
+                ]);
                 return res.status(200).send({
                     status: 'success',
-                    articulos
+                    total,
+                    articulo
                 });
             }
             catch (error) {

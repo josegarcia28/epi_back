@@ -1,14 +1,12 @@
-/*import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
-import {empleado} from '../entity/empleado';
+import { Request, Response } from 'express';
+import {Empleado} from '../models/empleado';
 
 export default class EmpleadoController {
  
    static async save(req: Request, res: Response){
         var params = req.body;
             try{
-                let newempleado = getRepository(empleado).create(params);
-                let result = await getRepository(empleado).save(newempleado);
+                let result = await Empleado.create(params);
                 if(result){
                     return res.status(200).send({
                         status: 'success',
@@ -30,22 +28,12 @@ export default class EmpleadoController {
         let params = req.body;
         let id = req.params.id;
         try{
-            let buscar = await getRepository(empleado).findOne(id);
+            let buscar = await Empleado.update(params, {where: { cod_emp: id}});
             if(buscar){
-                getRepository(empleado).merge(buscar, params);
-                let result = await getRepository(empleado).save(buscar);
-                if(result){
-                    return res.status(200).send({
-                        status: 'success',
-                        mensaje: 'se ha actualizado correctamente',
-                    }); 
-                } else {
-                    console.log('error');
-                    return res.status(400).send({
-                        status: 'error',
-                        mensaje: 'Problemas al actualizar'
-                    });
-                }
+                return res.status(200).send({
+                    status: 'success',
+                    mensaje: 'se ha actualizado correctamente',
+                }); 
             } else {
                 return res.status(200).send({
                     status: 'success',
@@ -61,7 +49,7 @@ export default class EmpleadoController {
             }); 
         }
     }
-    static async delete(req: Request, res: Response){
+    /*static async delete(req: Request, res: Response){
         let id = req.params.id;
         try{
             let resul = await getRepository(empleado).delete(id);
@@ -86,14 +74,22 @@ export default class EmpleadoController {
             }); 
         }
 
-    }
+    }*/
 
     static async list(req: Request, res: Response){
+        const { limite = 5, desde = 0 } = req.query;
         try{
-            let empleados = await getRepository(empleado).find();
+            const [empleado, total] = await Promise.all([
+                Empleado.findAll({
+                    offset: Number(desde), 
+                    limit: Number(limite)
+                }),
+                Empleado.count()
+            ]);
             return res.status(200).send({
                 status: 'success',
-                empleados
+                total,
+                empleado
             });
         } catch (error){
             return res.status(400).send({
@@ -106,9 +102,10 @@ export default class EmpleadoController {
 
     static async detail(req: Request, res: Response){
         let cod_emp = req.params.id;
-        console.log(cod_emp);
         try{
-            let result = await getRepository(empleado).findOne(cod_emp);
+            let result = await Empleado.findOne({
+                where: { cod_emp: cod_emp}
+            });
             return res.status(200).send({
                 status: 'success',
                 result
@@ -122,4 +119,4 @@ export default class EmpleadoController {
        
     }
 
-}*/
+}

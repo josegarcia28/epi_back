@@ -97,11 +97,19 @@ class Tipo_artController {
     }
     static list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const { limite = 5, desde = 0 } = req.query;
             try {
-                const tipo_arts = yield tipo_art_1.default.findAll();
+                const [Tipo, total] = yield Promise.all([
+                    tipo_art_1.default.findAll({
+                        offset: Number(desde),
+                        limit: Number(limite)
+                    }),
+                    tipo_art_1.default.count()
+                ]);
                 return res.status(200).send({
                     status: 'success',
-                    tipo_arts
+                    total,
+                    Tipo
                 });
             }
             catch (error) {
