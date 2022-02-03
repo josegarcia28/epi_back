@@ -67,5 +67,32 @@ export default class Detalle_entraController {
             }); 
         }
     }
+
+    static async list(req: Request, res: Response){
+        const { limite = 5, desde = 0 } = req.query;
+        try{
+            const [detalle_entra, total] = await Promise.all([
+                Detalle_entra.findAll({
+                    offset: Number(desde), 
+                    limit: Number(limite),
+                    include: Detalle_entra
+                }),
+                Detalle_entra.count()
+
+            ]);
+            return res.status(200).send({
+                status: 'success',
+                total,
+                detalle_entra
+            });
+        } catch (error){
+            return res.status(400).send({
+                status: 'error',
+                mensaje: 'Error al listar'
+            }); 
+        }
+       
+    }
+
     
 }

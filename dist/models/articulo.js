@@ -31,7 +31,19 @@ exports.Articulo = bd_1.db.define('Articulo', {
     color: {
         type: sequelize_1.DataTypes.STRING(120),
         allowNull: false,
-    }
+    },
+    stock: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    s_minimo: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    img: {
+        type: sequelize_1.DataTypes.STRING(200),
+        allowNull: true,
+    },
 });
 exports.Articulo.belongsTo(tipo_art_1.default, { foreignKey: 'cod_tipo' });
 tipo_art_1.default.hasMany(exports.Articulo, { foreignKey: 'cod_tipo' });

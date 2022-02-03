@@ -1,34 +1,54 @@
 import { Request, Response } from 'express';
 import {Proveedor} from '../models/proveedor';
 
+function isObjEmpty(obj: any) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+  
+    return true;
+  }
+
 export default class ProveedorController {
  
    static async save(req: Request, res: Response){
         var params = req.body;
-            try{
-                let result = await Proveedor.create(params);
-                if(result){
-                    return res.status(200).send({
-                        status: 'success',
-                        mensaje: 'Se ha creado correctamente',
-                        result
-                    }); 
-                } 
-            } catch(error) {
-                console.log(error);
-                return res.status(400).send({
-                    status: 'error',
-                    mensaje: 'Error de creacion'
+        if(Object.keys(params).length === 0){
+            return res.status(200).send({
+                status: 'error',
+                mensaje: 'No se enviaron elementos'
+            }); 
+        }
+        try{
+            let result = await Proveedor.create(params);
+            if(result){
+                return res.status(200).send({
+                    status: 'success',
+                    mensaje: 'Se ha creado correctamente',
+                    result
                 }); 
+            } 
+        } catch(error) {
+            console.log(error);
+            return res.status(400).send({
+                status: 'error',
+                mensaje: 'Error de creacion'
+            }); 
 
-            }
+        }
     }
 
     static async update(req: Request, res: Response){
         let params = req.body;
         let id = req.params.id;
+        if(Object.keys(params).length === 0){
+            return res.status(200).send({
+                status: 'error',
+                mensaje: 'No se enviaron elementos'
+            }); 
+        }
         try{
-            let buscar = await Proveedor.update(params, {where: { cod_prov: id}});
+            let buscar = await Proveedor.update(params, {where: { cif_pro: id}});
             if(buscar){
                 return res.status(200).send({
                     status: 'success',
@@ -36,7 +56,7 @@ export default class ProveedorController {
                 }); 
             } else {
                 return res.status(200).send({
-                    status: 'success',
+                    status: 'error',
                     mensaje: 'Usuario no encontrado',
                 }); 
             }
@@ -101,11 +121,12 @@ export default class ProveedorController {
     }
 
     static async detail(req: Request, res: Response){
-        let cod_prov = req.params.id;
+        let id = req.params.id;
         try{
             let result = await Proveedor.findOne({
-                where: { cod_prov: cod_prov}
+                where: { cif_pro: id}
             });
+            //console.log(result);
             return res.status(200).send({
                 status: 'success',
                 result

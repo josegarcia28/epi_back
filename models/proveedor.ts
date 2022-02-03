@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import { db } from '../bd/bd';
 
 
-export const Proveedor = db.define('Proveedor',{
+export const Proveedor = db.define('proveedor',{
     cif_pro: {
         type: DataTypes.STRING(30),
         primaryKey: true,
@@ -14,7 +14,7 @@ export const Proveedor = db.define('Proveedor',{
     descripcion: {
         type: DataTypes.STRING
     },
-    Direccion: {
+    direccion: {
         type: new DataTypes.STRING
     }
 });

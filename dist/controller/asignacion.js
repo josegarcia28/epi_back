@@ -89,31 +89,6 @@ class AsignacionController {
 
     }
     */
-    static list_cab(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { limite = 5, desde = 0 } = req.query;
-            try {
-                const [asig, total] = yield Promise.all([
-                    asignacion_1.Asignacion.findAll({
-                        offset: Number(desde),
-                        limit: Number(limite)
-                    }),
-                    asignacion_1.Asignacion.count()
-                ]);
-                return res.status(200).send({
-                    status: 'success',
-                    total,
-                    asig
-                });
-            }
-            catch (error) {
-                return res.status(400).send({
-                    status: 'error',
-                    mensaje: 'Error al listar'
-                });
-            }
-        });
-    }
     static list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { limite = 5, desde = 0 } = req.query;

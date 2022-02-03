@@ -1,7 +1,6 @@
 import express, { Application } from 'express';
 import path = require('path');
 
-
 var morgan = require('morgan');
 
 export default class Server {
@@ -32,3 +31,4 @@ export default class Server {
 
  }
 
+ 

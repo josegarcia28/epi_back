@@ -1,5 +1,6 @@
 import { DataTypes, INTEGER } from 'sequelize';
 import { db } from '../bd/bd';
+import { Almacen } from './almacen';
 import { Articulo } from './articulo';
 import { Empleado } from './empleado';
 
@@ -20,10 +21,18 @@ import { Empleado } from './empleado';
     descripcion: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    cod_emp: {
+        type: DataTypes.STRING(6),
+        allowNull: false,
     }
 });
 
 export const Detalle_asig = db.define('detalle_asig',{
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+        }, 
         reg_asig: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -40,10 +49,10 @@ export const Detalle_asig = db.define('detalle_asig',{
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        cod_emp: {
+        cod_alm: {
             type: DataTypes.STRING(6),
             allowNull: false,
-        }
+        },
     },
     {
         indexes: [
@@ -58,8 +67,11 @@ export const Detalle_asig = db.define('detalle_asig',{
 Detalle_asig.belongsTo(Asignacion, {foreignKey: 'cod_asig'});
 Asignacion.hasMany(Detalle_asig, { foreignKey: 'cod_asig'});
 
+Asignacion.belongsTo(Empleado, {foreignKey: 'cod_emp'});
+Empleado.hasMany(Asignacion, { foreignKey: 'cod_emp'});
+
 Detalle_asig.belongsTo(Articulo, {foreignKey: 'cod_art'});
 Articulo.hasMany(Detalle_asig, { foreignKey: 'cod_art'});
+Detalle_asig.belongsTo(Almacen, {foreignKey: 'cod_alm'});
+Almacen.hasMany(Detalle_asig, { foreignKey: 'cod_alm'});
 
-Detalle_asig.belongsTo(Empleado, {foreignKey: 'cod_emp'});
-Empleado.hasMany(Detalle_asig, { foreignKey: 'cod_emp'});

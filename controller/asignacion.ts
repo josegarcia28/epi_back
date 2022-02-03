@@ -79,31 +79,6 @@ export default class AsignacionController {
 
     }
     */
-   static async list_cab(req: Request, res: Response){
-        const { limite = 5, desde = 0 } = req.query;
-        try{
-            const [asig, total] = await Promise.all([
-                Asignacion.findAll({
-                    offset: Number(desde), 
-                    limit: Number(limite)
-                }),
-                Asignacion.count()
-
-            ]);
-            return res.status(200).send({
-                status: 'success',
-                total,
-                asig
-            });
-        } catch (error){
-            return res.status(400).send({
-                status: 'error',
-                mensaje: 'Error al listar'
-            }); 
-        }
-       
-    }
-
     static async list(req: Request, res: Response){
         const { limite = 5, desde = 0 } = req.query;
         try{

@@ -38,16 +38,21 @@ class EmpleadoController {
             let params = req.body;
             let id = req.params.id;
             try {
-                let buscar = yield empleado_1.Empleado.update(params, { where: { cod_emp: id } });
+                let buscar = yield empleado_1.Empleado.findOne({
+                    where: { cod_emp: id }
+                });
                 if (buscar) {
-                    return res.status(200).send({
-                        status: 'success',
-                        mensaje: 'se ha actualizado correctamente',
-                    });
+                    let result = yield empleado_1.Empleado.update(params, { where: { cod_emp: id } });
+                    if (result) {
+                        return res.status(200).send({
+                            status: 'success',
+                            mensaje: 'se ha actualizado correctamente',
+                        });
+                    }
                 }
                 else {
                     return res.status(200).send({
-                        status: 'success',
+                        status: 'error',
                         mensaje: 'Usuario no encontrado',
                     });
                 }

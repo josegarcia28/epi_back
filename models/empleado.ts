@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import { db } from '../bd/bd';
 
 
-export const Empleado = db.define('Empleado',{
+export const Empleado = db.define('empleado',{
     cod_emp: {
         type: DataTypes.STRING(30),
         primaryKey: true,
@@ -33,5 +33,9 @@ export const Empleado = db.define('Empleado',{
     t_guante: {
         type: new DataTypes.STRING(5),
         allowNull: false,
-    }
+    },
+    img: {
+        type: DataTypes.STRING(200),
+        allowNull: true,
+    },
 });

@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { db } from '../bd/bd';
+import { Almacen } from './almacen';
 import { Articulo } from './articulo';
 import { Proveedor } from './proveedor';
 
@@ -47,7 +48,7 @@ export const Detalle_entra = db.define('detalle_entra',{
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        cod_prov: {
+        cod_alm: {
             type: DataTypes.STRING(6),
             allowNull: false,
         }
@@ -56,7 +57,7 @@ export const Detalle_entra = db.define('detalle_entra',{
         indexes: [
             {
                 unique: true,
-                fields: ['reg_asig', 'cod_entra']
+                fields: ['reg_entra', 'cod_entra']
             }
         ]
     }
@@ -68,5 +69,5 @@ Entrada.hasMany(Detalle_entra, { foreignKey: 'cod_entra'});
 Detalle_entra.belongsTo(Articulo, {foreignKey: 'cod_art'});
 Articulo.hasMany(Detalle_entra, { foreignKey: 'cod_art'});
 
-Detalle_entra.belongsTo(Proveedor, {foreignKey: 'cod_prov'});
-Proveedor.hasMany(Detalle_entra, { foreignKey: 'cod_prov'});
+Detalle_entra.belongsTo(Almacen, {foreignKey: 'cod_alm'});
+Almacen.hasMany(Detalle_entra, { foreignKey: 'cod_alm'});

@@ -79,5 +79,31 @@ class Detalle_entraController {
             }
         });
     }
+    static list(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { limite = 5, desde = 0 } = req.query;
+            try {
+                const [detalle_entra, total] = yield Promise.all([
+                    entrada_1.Detalle_entra.findAll({
+                        offset: Number(desde),
+                        limit: Number(limite),
+                        include: entrada_1.Detalle_entra
+                    }),
+                    entrada_1.Detalle_entra.count()
+                ]);
+                return res.status(200).send({
+                    status: 'success',
+                    total,
+                    detalle_entra
+                });
+            }
+            catch (error) {
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error al listar'
+                });
+            }
+        });
+    }
 }
 exports.default = Detalle_entraController;

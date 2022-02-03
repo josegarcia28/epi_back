@@ -50,6 +50,32 @@ export default class ArticuloController {
                 mensaje: 'Error en actualizacion'
             }); 
         }
+    
+    }
+    static async subir(req: Request, res: Response){
+        let params = req.body;
+        let id = req.params.id;
+        try{
+            let buscar = await Articulo.update(params, {where: { cod_art: id}});
+            if(buscar){
+                return res.status(200).send({
+                    status: 'success',
+                    mensaje: 'se ha actualizado correctamente',
+                }); 
+            } else {
+                return res.status(200).send({
+                    status: 'success',
+                    mensaje: 'Articulo no encontrado',
+                }); 
+            }
+            
+        } catch(error) {
+            console.log(error);
+            return res.status(400).send({
+                status: 'error',
+                mensaje: 'Error en actualizacion'
+            }); 
+        }
     }
     
     static async delete(req: Request, res: Response){
@@ -79,11 +105,18 @@ export default class ArticuloController {
 
     }
 
+    /*attributes: [
+                        
+    ],*/
+
     static async list(req: Request, res: Response){
         const { limite = 5, desde = 0 } = req.query;
         try{
             const [articulo, total] = await Promise.all([
                 Articulo.findAll({
+                    include: [
+                        Tipo_art
+                    ],
                     offset: Number(desde), 
                     limit: Number(limite)
                 }),

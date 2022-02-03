@@ -27,7 +27,19 @@ export const Articulo = db.define('Articulo',{
     color: {
         type: DataTypes.STRING(120),
         allowNull: false,
-    }
+    },
+    stock: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    s_minimo: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    img: {
+        type: DataTypes.STRING(200),
+        allowNull: true,
+    },
     
 });
 

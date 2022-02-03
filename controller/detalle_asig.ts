@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
+import { Articulo } from '../models/articulo';
 import { Asignacion, Detalle_asig } from '../models/asignacion';
 
 
@@ -32,6 +33,22 @@ export default class Detalle_asigController {
         try{
             let buscar_cab = await Asignacion.findOne({ where: { cod_asig: id }});
             if(buscar_cab){
+                const [art, alma] = await Promise.all([
+                    Articulo.findOne({ where: { cod_art: params.cod_art }}),
+                    Articulo.findOne({ where: { cod_alm: params.cod_alm }}),
+                ]);
+                if(!art){
+                    return res.status(200).send({
+                        status: 'error',
+                        mensaje: 'El codigo de articulo no existe',
+                    }); 
+                }
+                if(!alma){
+                    return res.status(200).send({
+                        status: 'error',
+                        mensaje: 'El codigo del almacem no existe',
+                    }); 
+                }
                 let result = await Detalle_asig.update(params,{ 
                     where: { 
                         [Op.and]: [
@@ -67,24 +84,24 @@ export default class Detalle_asigController {
             }); 
         }
     }
-    /*
     static async delete(req: Request, res: Response){
         let id = req.params.id;
         try{
-            let resul = await getRepository(entrada).delete(id);
-            if(resul){
+            let resul = await Detalle_asig.findOne({ where: { id: id }});
+            if(!resul){
+                return res.status(200).send({
+                    status: 'error',
+                    mensaje: 'No se encontro registro a eliminar'
+                });
+            } 
+            let resp = await Detalle_asig.destroy({ where: { id: id }});
+            if(resp){
                 return res.status(200).send({
                     status: 'success',
                     mensaje: 'se ha eliminado correctamente',
                     resul
                 }); 
-            } else {
-                console.log('error');
-                return res.status(400).send({
-                    status: 'error',
-                    mensaje: 'Problemas al eliminar'
-                });
-            }
+            } 
         } catch(error) {
             console.log(error);
             return res.status(400).send({
@@ -96,11 +113,31 @@ export default class Detalle_asigController {
     }
 
     static async list(req: Request, res: Response){
+        let cod = req.params.id;
+        console.log(cod);
         try{
-            let entradas = await getRepository(entrada).find();
+            let buscar_deta = await Detalle_asig.findAll({ where: { cod_asig: cod }});
             return res.status(200).send({
                 status: 'success',
-                entradas
+                buscar_deta
+            });
+        } catch (error){
+            return res.status(400).send({
+                status: 'error',
+                mensaje: 'Error al listar detalles'
+            }); 
+        }
+       
+    }
+
+    static async detail(req: Request, res: Response){
+        let id_asig = req.params.cod_asig;
+        let id_reglon = req.params.cod_renglon;
+        try{
+            let buscar_deta = await Detalle_asig.findOne({ where: { cod_asig: id_asig, reg_asig: id_reglon}});
+            return res.status(200).send({
+                status: 'success',
+                buscar_deta
             });
         } catch (error){
             return res.status(400).send({
@@ -110,21 +147,4 @@ export default class Detalle_asigController {
         }
        
     }
-
-    static async detail(req: Request, res: Response){
-        let id = req.params.id;
-        try{
-            let result = await getRepository(entrada).findOne(id);
-            return res.status(200).send({
-                status: 'success',
-                result
-            });
-        } catch (error){
-            return res.status(400).send({
-                status: 'error',
-                mensaje: 'Error al listar'
-            }); 
-        }
-       
-    }*/
 }

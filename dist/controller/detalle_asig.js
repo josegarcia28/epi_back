@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
+const articulo_1 = require("../models/articulo");
 const asignacion_1 = require("../models/asignacion");
 class Detalle_asigController {
     static save(req, res) {
@@ -41,6 +42,22 @@ class Detalle_asigController {
             try {
                 let buscar_cab = yield asignacion_1.Asignacion.findOne({ where: { cod_asig: id } });
                 if (buscar_cab) {
+                    const [art, alma] = yield Promise.all([
+                        articulo_1.Articulo.findOne({ where: { cod_art: params.cod_art } }),
+                        articulo_1.Articulo.findOne({ where: { cod_alm: params.cod_alm } }),
+                    ]);
+                    if (!art) {
+                        return res.status(200).send({
+                            status: 'error',
+                            mensaje: 'El codigo de articulo no existe',
+                        });
+                    }
+                    if (!alma) {
+                        return res.status(200).send({
+                            status: 'error',
+                            mensaje: 'El codigo del almacem no existe',
+                        });
+                    }
                     let result = yield asignacion_1.Detalle_asig.update(params, {
                         where: {
                             [sequelize_1.Op.and]: [
@@ -75,6 +92,73 @@ class Detalle_asigController {
                 return res.status(400).send({
                     status: 'error',
                     mensaje: 'Error en actualizacion'
+                });
+            }
+        });
+    }
+    static delete(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let id = req.params.id;
+            try {
+                let resul = yield asignacion_1.Detalle_asig.findOne({ where: { id: id } });
+                if (!resul) {
+                    return res.status(200).send({
+                        status: 'error',
+                        mensaje: 'No se encontro registro a eliminar'
+                    });
+                }
+                let resp = yield asignacion_1.Detalle_asig.destroy({ where: { id: id } });
+                if (resp) {
+                    return res.status(200).send({
+                        status: 'success',
+                        mensaje: 'se ha eliminado correctamente',
+                        resul
+                    });
+                }
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error al eliminar'
+                });
+            }
+        });
+    }
+    static list(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let cod = req.params.id;
+            console.log(cod);
+            try {
+                let buscar_deta = yield asignacion_1.Detalle_asig.findAll({ where: { cod_asig: cod } });
+                return res.status(200).send({
+                    status: 'success',
+                    buscar_deta
+                });
+            }
+            catch (error) {
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error al listar detalles'
+                });
+            }
+        });
+    }
+    static detail(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let id_asig = req.params.cod_asig;
+            let id_reglon = req.params.cod_renglon;
+            try {
+                let buscar_deta = yield asignacion_1.Detalle_asig.findOne({ where: { cod_asig: id_asig, reg_asig: id_reglon } });
+                return res.status(200).send({
+                    status: 'success',
+                    buscar_deta
+                });
+            }
+            catch (error) {
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error al listar'
                 });
             }
         });

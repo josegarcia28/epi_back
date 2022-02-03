@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Detalle_entra = exports.Entrada = void 0;
 const sequelize_1 = require("sequelize");
 const bd_1 = require("../bd/bd");
+const almacen_1 = require("./almacen");
 const articulo_1 = require("./articulo");
 const proveedor_1 = require("./proveedor");
 exports.Entrada = bd_1.db.define('entrada', {
@@ -46,7 +47,7 @@ exports.Detalle_entra = bd_1.db.define('detalle_entra', {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
     },
-    cod_prov: {
+    cod_alm: {
         type: sequelize_1.DataTypes.STRING(6),
         allowNull: false,
     }
@@ -54,7 +55,7 @@ exports.Detalle_entra = bd_1.db.define('detalle_entra', {
     indexes: [
         {
             unique: true,
-            fields: ['reg_asig', 'cod_entra']
+            fields: ['reg_entra', 'cod_entra']
         }
     ]
 });
@@ -62,5 +63,5 @@ exports.Detalle_entra.belongsTo(exports.Entrada, { foreignKey: 'cod_entra' });
 exports.Entrada.hasMany(exports.Detalle_entra, { foreignKey: 'cod_entra' });
 exports.Detalle_entra.belongsTo(articulo_1.Articulo, { foreignKey: 'cod_art' });
 articulo_1.Articulo.hasMany(exports.Detalle_entra, { foreignKey: 'cod_art' });
-exports.Detalle_entra.belongsTo(proveedor_1.Proveedor, { foreignKey: 'cod_prov' });
-proveedor_1.Proveedor.hasMany(exports.Detalle_entra, { foreignKey: 'cod_prov' });
+exports.Detalle_entra.belongsTo(almacen_1.Almacen, { foreignKey: 'cod_alm' });
+almacen_1.Almacen.hasMany(exports.Detalle_entra, { foreignKey: 'cod_alm' });

@@ -65,6 +65,34 @@ class ArticuloController {
             }
         });
     }
+    static subir(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let params = req.body;
+            let id = req.params.id;
+            try {
+                let buscar = yield articulo_1.Articulo.update(params, { where: { cod_art: id } });
+                if (buscar) {
+                    return res.status(200).send({
+                        status: 'success',
+                        mensaje: 'se ha actualizado correctamente',
+                    });
+                }
+                else {
+                    return res.status(200).send({
+                        status: 'success',
+                        mensaje: 'Articulo no encontrado',
+                    });
+                }
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error en actualizacion'
+                });
+            }
+        });
+    }
     static delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let id = req.params.id;
@@ -94,12 +122,18 @@ class ArticuloController {
             }
         });
     }
+    /*attributes: [
+                        
+    ],*/
     static list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { limite = 5, desde = 0 } = req.query;
             try {
                 const [articulo, total] = yield Promise.all([
                     articulo_1.Articulo.findAll({
+                        include: [
+                            tipo_art_1.default
+                        ],
                         offset: Number(desde),
                         limit: Number(limite)
                     }),

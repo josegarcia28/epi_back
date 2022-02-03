@@ -10,10 +10,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const proveedor_1 = require("../models/proveedor");
+function isObjEmpty(obj) {
+    for (var prop in obj) {
+        if (obj.hasOwnProperty(prop))
+            return false;
+    }
+    return true;
+}
 class ProveedorController {
     static save(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             var params = req.body;
+            if (Object.keys(params).length === 0) {
+                return res.status(200).send({
+                    status: 'error',
+                    mensaje: 'No se enviaron elementos'
+                });
+            }
             try {
                 let result = yield proveedor_1.Proveedor.create(params);
                 if (result) {
@@ -37,8 +50,14 @@ class ProveedorController {
         return __awaiter(this, void 0, void 0, function* () {
             let params = req.body;
             let id = req.params.id;
+            if (Object.keys(params).length === 0) {
+                return res.status(200).send({
+                    status: 'error',
+                    mensaje: 'No se enviaron elementos'
+                });
+            }
             try {
-                let buscar = yield proveedor_1.Proveedor.update(params, { where: { cod_prov: id } });
+                let buscar = yield proveedor_1.Proveedor.update(params, { where: { cif_pro: id } });
                 if (buscar) {
                     return res.status(200).send({
                         status: 'success',
@@ -47,7 +66,7 @@ class ProveedorController {
                 }
                 else {
                     return res.status(200).send({
-                        status: 'success',
+                        status: 'error',
                         mensaje: 'Usuario no encontrado',
                     });
                 }
@@ -114,11 +133,12 @@ class ProveedorController {
     }
     static detail(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            let cod_prov = req.params.id;
+            let id = req.params.id;
             try {
                 let result = yield proveedor_1.Proveedor.findOne({
-                    where: { cod_prov: cod_prov }
+                    where: { cif_pro: id }
                 });
+                //console.log(result);
                 return res.status(200).send({
                     status: 'success',
                     result
