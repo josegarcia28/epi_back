@@ -81,20 +81,78 @@ class Detalle_entraController {
     }
     static list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { limite = 5, desde = 0 } = req.query;
+            let cod = req.params.id;
             try {
-                const [detalle_entra, total] = yield Promise.all([
-                    entrada_1.Detalle_entra.findAll({
-                        offset: Number(desde),
-                        limit: Number(limite),
-                        include: entrada_1.Detalle_entra
-                    }),
-                    entrada_1.Detalle_entra.count()
-                ]);
+                let buscar_deta = yield entrada_1.Detalle_entra.findAll({ where: { cod_entra: cod } });
                 return res.status(200).send({
                     status: 'success',
-                    total,
-                    detalle_entra
+                    buscar_deta
+                });
+            }
+            catch (error) {
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error al listar detalles'
+                });
+            }
+        });
+    }
+    static detail(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let id_asig = req.params.cod_asig;
+            let id_reglon = req.params.cod_renglon;
+            try {
+                let buscar_deta = yield entrada_1.Detalle_entra.findOne({ where: { cod_entra: id_asig, reg_entra: id_reglon } });
+                return res.status(200).send({
+                    status: 'success',
+                    buscar_deta
+                });
+            }
+            catch (error) {
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error al listar'
+                });
+            }
+        });
+    }
+    static delete(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let id = req.params.id;
+            try {
+                let resul = yield entrada_1.Detalle_entra.findOne({ where: { id: id } });
+                if (!resul) {
+                    return res.status(200).send({
+                        status: 'error',
+                        mensaje: 'No se encontro registro a eliminar'
+                    });
+                }
+                let resp = yield entrada_1.Detalle_entra.destroy({ where: { id: id } });
+                if (resp) {
+                    return res.status(200).send({
+                        status: 'success',
+                        mensaje: 'se ha eliminado correctamente',
+                        resul
+                    });
+                }
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error al eliminar'
+                });
+            }
+        });
+    }
+    static detailId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let id = req.params.id;
+            try {
+                let buscar_deta = yield entrada_1.Detalle_entra.findOne({ where: { id: id } });
+                return res.status(200).send({
+                    status: 'success',
+                    buscar_deta
                 });
             }
             catch (error) {

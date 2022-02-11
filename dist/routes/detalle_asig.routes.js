@@ -20,6 +20,6 @@ routerDetalle_asig.post('/api/detalle_asig/new', [
 ], detalle_asig_1.default.save);
 routerDetalle_asig.put('/api/detalle_asig', detalle_asig_1.default.update_ren);
 routerDetalle_asig.get('/api/detalle_asig/list/:id', detalle_asig_1.default.list);
-//router.get('/tipo_art/:id',Tipo_artController.detail); 
+routerDetalle_asig.get('/api/detalle_asig/:id', detalle_asig_1.default.detailId);
 routerDetalle_asig.delete('/api/detalle_asig/:id', validar_jwt_1.default.Campo, detalle_asig_1.default.delete);
 exports.default = routerDetalle_asig;

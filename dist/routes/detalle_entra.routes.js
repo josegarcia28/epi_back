@@ -19,6 +19,7 @@ routerDetalle_entra.post('/api/detalle_entra/new', [
 ], detalle_entrada_1.default.save);
 routerDetalle_entra.put('/api/detalle_entra', detalle_entrada_1.default.update_ren);
 routerDetalle_entra.get('/api/detalle_entra/list/:id', detalle_entrada_1.default.list);
-//router.get('/tipo_art/:id',Tipo_artController.detail); 
-//router.delete('/tipo_art/:id', Tipo_artController.delete);
+routerDetalle_entra.get('/api/detalle_entra/:id', detalle_entrada_1.default.detailId);
+//routerDetalle_entra.get('/tipo_art/:id',Tipo_artController.detail); 
+routerDetalle_entra.delete('/api/detalle_entra/:id', detalle_entrada_1.default.delete);
 exports.default = routerDetalle_entra;

@@ -26,8 +26,41 @@ export default class Detalle_asigController {
 
             }
     }
-    
+
     static async update_ren(req: Request, res: Response){
+        let params = req.body;
+        try{
+            let result = await Detalle_asig.update(params,{ 
+                where: { 
+                    [Op.and]: [
+                        {id: params.id}
+                    ]
+                } 
+            });
+            if(result){
+                return res.status(200).send({
+                    status: 'success',
+                    mensaje: 'se ha actualizado correctamente',
+                }); 
+            } else {
+                console.log('error');
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Problemas al actualizar'
+                });
+            }
+           
+            
+        } catch(error) {
+            console.log(error);
+            return res.status(400).send({
+                status: 'error',
+                mensaje: 'Error en actualizacion'
+            }); 
+        }
+    }
+    
+    /*static async update_ren(req: Request, res: Response){
         let params = req.body;
         const { id = 1, ren = 0 } = req.query;
         try{
@@ -83,7 +116,8 @@ export default class Detalle_asigController {
                 mensaje: 'Error en actualizacion'
             }); 
         }
-    }
+    }*/
+
     static async delete(req: Request, res: Response){
         let id = req.params.id;
         try{
@@ -114,7 +148,6 @@ export default class Detalle_asigController {
 
     static async list(req: Request, res: Response){
         let cod = req.params.id;
-        console.log(cod);
         try{
             let buscar_deta = await Detalle_asig.findAll({ where: { cod_asig: cod }});
             return res.status(200).send({
@@ -135,6 +168,23 @@ export default class Detalle_asigController {
         let id_reglon = req.params.cod_renglon;
         try{
             let buscar_deta = await Detalle_asig.findOne({ where: { cod_asig: id_asig, reg_asig: id_reglon}});
+            return res.status(200).send({
+                status: 'success',
+                buscar_deta
+            });
+        } catch (error){
+            return res.status(400).send({
+                status: 'error',
+                mensaje: 'Error al listar'
+            }); 
+        }
+       
+    }
+
+    static async detailId(req: Request, res: Response){
+        let id = req.params.id;
+        try{
+            let buscar_deta = await Detalle_asig.findOne({ where: { id: id}});
             return res.status(200).send({
                 status: 'success',
                 buscar_deta

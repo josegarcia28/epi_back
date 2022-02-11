@@ -65,6 +65,37 @@ class ArticuloController {
             }
         });
     }
+    static actualizarStock(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            //let params = req.body;
+            let id = req.params.id;
+            let cant = req.params.cant;
+            try {
+                //let buscar = await Articulo.update(params, {where: { cod_art: id}});
+                let buscar = yield articulo_1.Articulo.findOne({ where: { cod_art: id } });
+                console.log(buscar);
+                if (buscar) {
+                    return res.status(200).send({
+                        status: 'success',
+                        mensaje: 'se ha actualizado correctamente',
+                    });
+                }
+                else {
+                    return res.status(200).send({
+                        status: 'success',
+                        mensaje: 'Articulo no encontrado',
+                    });
+                }
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error en actualizacion'
+                });
+            }
+        });
+    }
     static subir(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let params = req.body;

@@ -17,8 +17,9 @@ routerStock.post('/api/stock/new',
     StockController.save
 ); 
 routerStock.get('/api/stock/list',StockController.list); 
+//routerStock.get('/api/stock/busq',StockController.buscar); 
 routerStock.get('/api/stock/:id',StockController.detail); 
 routerStock.put('/api/stock', StockController.update);
-//router.delete('/Stock/:id', StockController.delete);
+//routerStock.delete('/Stock/:id', StockController.delete);*/
 
 export default routerStock;

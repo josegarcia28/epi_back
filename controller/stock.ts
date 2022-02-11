@@ -8,6 +8,7 @@ export default class StockController {
  
    static async save(req: Request, res: Response){
         var params = req.body;
+
             try{
                 const [Alma, Arti] = await Promise.all([
                     Almacen.findOne({
@@ -55,8 +56,9 @@ export default class StockController {
 
     static async update(req: Request, res: Response){
         let params = req.body;
-        const { id_alm, id_art} = req.query;
-        const id = `${id_art}${id_alm}`;
+        //const { id_alm, id_art} = req.query;
+        const id = `${params.cod_art}${params.cod_alm}`;
+        console.log(params);
         try{
             let buscar = await Stock.findOne({where: { cod_stock: id}});
             if(buscar){
@@ -143,8 +145,29 @@ export default class StockController {
         let id = req.params.id;
         try{
             let result = await Stock.findOne({
-                where: { id: id}
+                where: { cod_stock: id}
             });
+            return res.status(200).send({
+                status: 'success',
+                result
+            });
+        } catch (error){
+            return res.status(400).send({
+                status: 'error',
+                mensaje: 'Error al listar'
+            }); 
+        }
+       
+    }
+
+    static async buscar(req: Request, res: Response){
+        const { id_alma, id_art} = req.query;
+        const id = `${id_art}${id_alma}`;
+        try{
+            let result = await Stock.findOne({
+                where: { cod_stock: id }
+            });
+            
             return res.status(200).send({
                 status: 'success',
                 result

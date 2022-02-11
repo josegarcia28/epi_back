@@ -52,6 +52,37 @@ export default class ArticuloController {
         }
     
     }
+
+    static async actualizarStock(req: Request, res: Response){
+        //let params = req.body;
+        let id = req.params.id;
+        let cant = req.params.cant;
+        try{
+            //let buscar = await Articulo.update(params, {where: { cod_art: id}});
+            let buscar = await Articulo.findOne({where: { cod_art: id}});
+            console.log(buscar);
+            if(buscar){
+                return res.status(200).send({
+                    status: 'success',
+                    mensaje: 'se ha actualizado correctamente',
+                }); 
+            } else {
+                return res.status(200).send({
+                    status: 'success',
+                    mensaje: 'Articulo no encontrado',
+                }); 
+            }
+            
+        } catch(error) {
+            console.log(error);
+            return res.status(400).send({
+                status: 'error',
+                mensaje: 'Error en actualizacion'
+            }); 
+        }
+    
+    }
+
     static async subir(req: Request, res: Response){
         let params = req.body;
         let id = req.params.id;

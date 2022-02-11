@@ -32,9 +32,13 @@ exports.Articulo = bd_1.db.define('Articulo', {
         type: sequelize_1.DataTypes.STRING(120),
         allowNull: false,
     },
+    s_inicial: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: true,
+    },
     stock: {
         type: sequelize_1.DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
     s_minimo: {
         type: sequelize_1.DataTypes.INTEGER,

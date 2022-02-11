@@ -16,7 +16,8 @@ routerStock.post('/api/stock/new', [
     validar_campo_1.default.Campo,
 ], stock_1.default.save);
 routerStock.get('/api/stock/list', stock_1.default.list);
+//routerStock.get('/api/stock/busq',StockController.buscar); 
 routerStock.get('/api/stock/:id', stock_1.default.detail);
 routerStock.put('/api/stock', stock_1.default.update);
-//router.delete('/Stock/:id', StockController.delete);
+//routerStock.delete('/Stock/:id', StockController.delete);*/
 exports.default = routerStock;

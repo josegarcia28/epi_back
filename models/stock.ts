@@ -6,7 +6,7 @@ import { Articulo } from './articulo';
 
 export const Stock = db.define('Stock',{
     cod_stock: {
-        type: DataTypes.STRING(6),
+        type: DataTypes.STRING(11),
         primaryKey: true,
     }, 
     cod_art: {

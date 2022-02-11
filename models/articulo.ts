@@ -28,9 +28,13 @@ export const Articulo = db.define('Articulo',{
         type: DataTypes.STRING(120),
         allowNull: false,
     },
+    s_inicial: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
     stock: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
     s_minimo: {
         type: DataTypes.INTEGER,

@@ -7,7 +7,7 @@ const almacen_1 = require("./almacen");
 const articulo_1 = require("./articulo");
 exports.Stock = bd_1.db.define('Stock', {
     cod_stock: {
-        type: sequelize_1.DataTypes.STRING(6),
+        type: sequelize_1.DataTypes.STRING(11),
         primaryKey: true,
     },
     cod_art: {
