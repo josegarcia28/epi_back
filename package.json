@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "API PARA SISTEMA EPI",
   "main": "index.ts",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "start:dev": "nodemon dist/index",
     "html": "copyfiles --up 1 public/*.html dist",
     "build": "tsc && npm run html",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/index"
+    "start": "node dist/index.js"
   },
   "author": "Jose Garcia",
   "license": "ISC",
