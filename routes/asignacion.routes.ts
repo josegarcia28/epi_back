@@ -20,6 +20,7 @@ routerAsignacion.post('/api/asignacion/new',
 routerAsignacion.put('/api/asignacion/:id', AsignacionController.update);
 routerAsignacion.get('/api/asignacion/list',AsignacionController.list); 
 routerAsignacion.get('/api/asignacion/:id',AsignacionController.detail); 
+routerAsignacion.get('/api/asignacion/infoAsigEmple/:id',AsignacionController.infoEmpleAsig); 
 //router.delete('/tipo_art/:id', Tipo_artController.delete);
 
 export default routerAsignacion;

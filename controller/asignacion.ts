@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import { Sequelize } from 'sequelize/types';
+import { Articulo } from '../models/articulo';
 import { Asignacion, Detalle_asig } from '../models/asignacion';
 
 
@@ -117,6 +119,35 @@ export default class AsignacionController {
             return res.status(400).send({
                 status: 'error',
                 mensaje: 'Error al listar'
+            }); 
+        }
+       
+    }
+
+    static async infoEmpleAsig(req: Request, res: Response){
+        let id = req.params.id;
+        const { limite = 5, desde = 0 } = req.query;
+        try{
+            let resul = await Asignacion.findAll({ 
+                where: {cod_emp: id},
+                include: {
+                    model: Detalle_asig,
+                    include: [{
+                      model: Articulo
+                    }]
+                },
+                offset: Number(desde), 
+                limit: Number(limite),
+            });
+            return res.status(200).send({
+                status: 'success',
+                resul
+            });
+        } catch (error){
+            return res.status(400).send({
+                status: 'error',
+                mensaje: 'Error al listar',
+                error
             }); 
         }
        

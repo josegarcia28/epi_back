@@ -19,5 +19,6 @@ routerAsignacion.post('/api/asignacion/new', [
 routerAsignacion.put('/api/asignacion/:id', asignacion_1.default.update);
 routerAsignacion.get('/api/asignacion/list', asignacion_1.default.list);
 routerAsignacion.get('/api/asignacion/:id', asignacion_1.default.detail);
+routerAsignacion.get('/api/asignacion/infoAsigEmple/:id', asignacion_1.default.infoEmpleAsig);
 //router.delete('/tipo_art/:id', Tipo_artController.delete);
 exports.default = routerAsignacion;

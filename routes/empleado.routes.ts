@@ -25,6 +25,7 @@ routerEmpleado.post('/api/empleado/new',
     EmpleadoController.save
 ); 
 routerEmpleado.get('/api/empleado/:id',EmpleadoController.detail); 
+//routerEmpleado.get('/api/empleado/infoEmpleAsig',EmpleadoController.infoEmpleAsig); 
 //routerEmpleado.get('/api/empleado/:tabla/:busqueda', BusquedaController.getTodo); 
 routerEmpleado.put('/api/empleado/:id', validarJwt.Campo, EmpleadoController.update);
 

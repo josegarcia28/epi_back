@@ -23,6 +23,7 @@ routerEmpleado.post('/api/empleado/new', [
     validar_jwt_1.default.Campo
 ], empleado_1.default.save);
 routerEmpleado.get('/api/empleado/:id', empleado_1.default.detail);
+//routerEmpleado.get('/api/empleado/infoEmpleAsig',EmpleadoController.infoEmpleAsig); 
 //routerEmpleado.get('/api/empleado/:tabla/:busqueda', BusquedaController.getTodo); 
 routerEmpleado.put('/api/empleado/:id', validar_jwt_1.default.Campo, empleado_1.default.update);
 exports.default = routerEmpleado;

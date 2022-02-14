@@ -7,7 +7,8 @@
     "start:dev": "nodemon dist/index",
     "html": "copyfiles --up 1 public/*.html dist",
     "build": "tsc && npm run html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/index"
   },
   "author": "Jose Garcia",
   "license": "ISC",

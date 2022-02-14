@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const articulo_1 = require("../models/articulo");
 const asignacion_1 = require("../models/asignacion");
 class AsignacionController {
     static save(req, res) {
@@ -129,6 +130,36 @@ class AsignacionController {
                 return res.status(400).send({
                     status: 'error',
                     mensaje: 'Error al listar'
+                });
+            }
+        });
+    }
+    static infoEmpleAsig(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let id = req.params.id;
+            const { limite = 5, desde = 0 } = req.query;
+            try {
+                let resul = yield asignacion_1.Asignacion.findAll({
+                    where: { cod_emp: id },
+                    include: {
+                        model: asignacion_1.Detalle_asig,
+                        include: [{
+                                model: articulo_1.Articulo
+                            }]
+                    },
+                    offset: Number(desde),
+                    limit: Number(limite),
+                });
+                return res.status(200).send({
+                    status: 'success',
+                    resul
+                });
+            }
+            catch (error) {
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error al listar',
+                    error
                 });
             }
         });

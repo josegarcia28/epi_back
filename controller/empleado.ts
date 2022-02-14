@@ -1,4 +1,7 @@
 import { Request, Response } from 'express';
+import { Sequelize } from 'sequelize/types';
+import { Articulo } from '../models/articulo';
+import { Detalle_asig } from '../models/asignacion';
 import {Empleado} from '../models/empleado';
 
 export default class EmpleadoController {
