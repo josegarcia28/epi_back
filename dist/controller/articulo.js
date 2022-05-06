@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const articulo_1 = require("../models/articulo");
 const tipo_art_1 = __importDefault(require("../models/tipo_art"));
+const bd_1 = require("../bd/bd");
 class ArticuloController {
     static save(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -196,6 +197,26 @@ class ArticuloController {
                     status: 'success',
                     result
                 });
+            }
+            catch (error) {
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error al listar'
+                });
+            }
+        });
+    }
+    static generarCodigo(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let ini = req.params.ini;
+            try {
+                let consulta = yield bd_1.db.query(`SELECT CONCAT(SUBSTRING(MAX(cod_art), 1,3) , LPAD(SUBSTRING(MAX(cod_art), 4,3) + 1,3,'0')) as numero FROM articulo WHERE SUBSTRING(cod_art, 1,3) = ${ini}`);
+                if (consulta.length > 0) {
+                    return res.status(200).send({
+                        status: 'success',
+                        datos: consulta[0]
+                    });
+                }
             }
             catch (error) {
                 return res.status(400).send({

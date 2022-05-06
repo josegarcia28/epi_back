@@ -8,7 +8,8 @@ const articulo_1 = require("./articulo");
 const empleado_1 = require("./empleado");
 exports.Asignacion = bd_1.db.define('asignacion', {
     cod_asig: {
-        type: sequelize_1.DataTypes.STRING(6),
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     },
     fecha: {

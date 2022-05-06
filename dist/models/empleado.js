@@ -12,8 +12,11 @@ exports.Empleado = bd_1.db.define('empleado', {
         type: new sequelize_1.DataTypes.STRING(100),
         allowNull: false,
     },
-    apellido: {
-        type: sequelize_1.DataTypes.STRING(100),
+    dni: {
+        type: new sequelize_1.DataTypes.STRING(15)
+    },
+    estatus: {
+        type: sequelize_1.DataTypes.TINYINT,
         allowNull: false,
     },
     descripcion: {
@@ -32,6 +35,22 @@ exports.Empleado = bd_1.db.define('empleado', {
         allowNull: false,
     },
     t_guante: {
+        type: new sequelize_1.DataTypes.STRING(5),
+        allowNull: false,
+    },
+    t_chaleco: {
+        type: new sequelize_1.DataTypes.STRING(5),
+        allowNull: false,
+    },
+    t_jersey: {
+        type: new sequelize_1.DataTypes.STRING(5),
+        allowNull: false,
+    },
+    t_cazadora: {
+        type: new sequelize_1.DataTypes.STRING(5),
+        allowNull: false,
+    },
+    t_buzo: {
         type: new sequelize_1.DataTypes.STRING(5),
         allowNull: false,
     },

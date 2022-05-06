@@ -14,6 +14,15 @@ routerLogin.post('/api/login/google',
     ],
     LoginController.SignIn
 ); 
-routerLogin.get('/api/login/renew',LoginController.renewToken
+routerLogin.post('/api/login', 
+    [
+        check('email', 'Falta el email').notEmpty(),
+        check('password', 'Falta el password').notEmpty(),
+        Validar.Campo,
+    ],
+    LoginController.login
 ); 
+routerLogin.get('/api/login/renew',validarJwt.Campo, LoginController.renewToken);
+
+
 export default routerLogin;

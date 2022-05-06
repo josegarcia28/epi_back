@@ -8,7 +8,8 @@ const articulo_1 = require("./articulo");
 const proveedor_1 = require("./proveedor");
 exports.Entrada = bd_1.db.define('entrada', {
     cod_entra: {
-        type: sequelize_1.DataTypes.STRING(6),
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     },
     fecha: {
@@ -36,7 +37,7 @@ exports.Detalle_entra = bd_1.db.define('detalle_entra', {
         allowNull: false,
     },
     cod_entra: {
-        type: sequelize_1.DataTypes.STRING(6),
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
     },
     cod_art: {

@@ -8,7 +8,6 @@ const routerTipo_art = Router();
 // tipo_art
 routerTipo_art.post('/api/tipo_art/new', 
     [
-        check('cod_tipo', 'Falta el cod_tipo').notEmpty(),
         check('nombre', 'Falta el nombre').notEmpty(),
         Validar.Campo,
     ],

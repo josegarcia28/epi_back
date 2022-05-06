@@ -20,6 +20,7 @@ routerArticulo.post('/api/articulo/new', [
 ], articulo_1.default.save);
 routerArticulo.get('/api/articulo/list', articulo_1.default.list);
 routerArticulo.get('/api/articulo/:id', articulo_1.default.detail);
+routerArticulo.get('/api/articulo/generar/:ini', articulo_1.default.generarCodigo);
 routerArticulo.get('/api/articulo/stock/', articulo_1.default.actualizarStock);
 routerArticulo.put('/api/articulo/:id', articulo_1.default.update);
 //router.delete('/articulo/:id', ArticuloController.delete);

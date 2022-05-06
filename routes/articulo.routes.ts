@@ -21,6 +21,7 @@ routerArticulo.post('/api/articulo/new',
 ); 
 routerArticulo.get('/api/articulo/list',ArticuloController.list); 
 routerArticulo.get('/api/articulo/:id',ArticuloController.detail); 
+routerArticulo.get('/api/articulo/generar/:ini',ArticuloController.generarCodigo); 
 routerArticulo.get('/api/articulo/stock/',ArticuloController.actualizarStock); 
 routerArticulo.put('/api/articulo/:id', ArticuloController.update);
 //router.delete('/articulo/:id', ArticuloController.delete);

@@ -74,6 +74,31 @@ export default class Actualizar {
                 }
             break; 
             case 'usuario':
+                try{
+                    let rEmp: any = await Usuario.findOne({
+                        where: { email: id}
+                    });
+                    if ( !rEmp ) {
+                        console.log('No existe el email del Empleado');
+                    }
+                    pathViejo = `./uploads/usuario/${ rEmp.img }`;
+                    if(rEmp.img != '' || rEmp.img.length != 0){
+                        borrarImagen( pathViejo );
+                    }
+                    let rGuardar = await Usuario.update({img: nombreArchivo}, {
+                        where: { email: id}
+                    });
+                    
+                    if(rGuardar){
+                        status = true;
+                    } else {
+                        console.log('No se pudo actualizar el Empleado');
+                    }
+                } catch (error){
+                    status = false;
+                    console.log(error);
+                    console.log('error en la actualización');               
+                }
             break;
         }
         return status;

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Op } from 'sequelize';
 import { Articulo } from '../models/articulo';
 import { Asignacion, Detalle_asig } from '../models/asignacion';
-
+import { db } from '../bd/bd';
 
 export default class Detalle_asigController {
  
@@ -162,6 +162,24 @@ export default class Detalle_asigController {
         }
        
     }
+    static async list2(req: Request, res: Response){
+        let cod = req.params.id;
+        try{
+            let consulta = await db.query(`SELECT d.cod_asig, ar.cod_art, ar.nombre, a.nombre as n_almacen, d.cantidad FROM detalle_asig as d INNER JOIN almacen as a ON a.cod_alm = d.cod_alm INNER JOIN articulo as ar ON d.cod_art = ar.cod_art WHERE d.cod_asig = ${cod}`)
+            if(consulta.length > 0) {
+                return res.status(200).send({
+                    status: 'success',
+                    buscar_deta: consulta[0]
+                });
+            }
+        } catch (error){
+            return res.status(400).send({
+                status: 'error',
+                mensaje: 'Error al listar detalles'
+            }); 
+        }
+       
+    }
 
     static async detail(req: Request, res: Response){
         let id_asig = req.params.cod_asig;
@@ -189,6 +207,7 @@ export default class Detalle_asigController {
                 status: 'success',
                 buscar_deta
             });
+          
         } catch (error){
             return res.status(400).send({
                 status: 'error',

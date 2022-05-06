@@ -28,6 +28,7 @@ const subir_routes_1 = __importDefault(require("./routes/subir.routes"));
 const entrada_routes_1 = __importDefault(require("./routes/entrada.routes"));
 const proveedor_routes_1 = __importDefault(require("./routes/proveedor.routes"));
 const detalle_entra_routes_1 = __importDefault(require("./routes/detalle_entra.routes"));
+const usuario_routes_1 = __importDefault(require("./routes/usuario.routes"));
 const server = server_1.default.init();
 // Configurar CORS
 server.app.use((0, cors_1.default)());
@@ -46,6 +47,7 @@ server.app.use((req, res, next) => {
 });
 // Rutas
 server.app.use(login_routes_1.default);
+server.app.use(usuario_routes_1.default);
 server.app.use(empleado_routes_1.default);
 server.app.use(articulo_routes_1.default);
 server.app.use(asignacion_routes_1.default);

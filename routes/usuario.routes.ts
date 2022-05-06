@@ -1,19 +1,21 @@
-/*import { Router} from 'express';
+import { Router} from 'express';
 import { check } from 'express-validator';
-import LoginController from '../controller/login';
+import UsuarioController from '../controller/usuario';
 import  Validar  from '../middlewares/validar-campo';
 import validarJwt from '../middlewares/validar-jwt';
 
 
-const routerLogin = Router();
+const routerUsuario = Router();
 
-routerLogin.post('/api/login/google', 
+routerUsuario.post('/api/usuario/new', 
     [
-        check('token', 'Falta el token de google').notEmpty(),
+        check('email', 'Falta el email').notEmpty(),
+        check('password', 'Falta el password').notEmpty(),
         Validar.Campo,
     ],
-    LoginController.SignIn
+    UsuarioController.save
 ); 
-routerLogin.get('/api/login/renew',LoginController.renewToken
-); 
-export default routerLogin;*/
+//routerLogin.get('/api/login/renew',LoginController.renewToken
+routerUsuario.put('/api/usuario/update', validarJwt.Campo, UsuarioController.update);
+
+export default routerUsuario;

@@ -8,7 +8,6 @@ const routerCompra = Router();
 // Compra
 routerCompra.post('/api/compra/new', 
     [
-        check('cod_entra', 'Falta el codigo de entrada').notEmpty(),
         check('fecha', 'Falta el fecha').notEmpty(),
         check('responsable', 'Falta el responsable').notEmpty(),
         check('descripcion', 'Falta el descripcion').notEmpty(),

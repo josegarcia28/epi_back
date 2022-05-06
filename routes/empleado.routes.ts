@@ -14,12 +14,11 @@ routerEmpleado.post('/api/empleado/new',
     [
         check('cod_emp', 'Falta el cod_emp').notEmpty(),
         check('nombre', 'Falta el nombre').notEmpty(),
-        check('apellido', 'Falta el apellido').notEmpty(),
-        check('t_calzado', 'Falta el t_calzado').notEmpty(),
+        check('estatus', 'Falta el estatus').notEmpty(),
+        /*check('t_calzado', 'Falta el t_calzado').notEmpty(),
         check('t_pantalon', 'Falta el t_pantalon').notEmpty(),
         check('t_camiseta', 'Falta el t_camiseta').notEmpty(),
-        check('t_guante', 'Falta el t_guante').notEmpty(),
-        Validar.Campo,
+        check('t_guante', 'Falta el t_guante').notEmpty(),*/
         validarJwt.Campo
     ],
     EmpleadoController.save

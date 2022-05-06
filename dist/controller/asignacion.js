@@ -9,14 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const articulo_1 = require("../models/articulo");
 const asignacion_1 = require("../models/asignacion");
+const bd_1 = require("../bd/bd");
 class AsignacionController {
     static save(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             var params = req.body;
             try {
-                let newasignacion = yield asignacion_1.Asignacion.create(params);
+                const newasignacion = yield asignacion_1.Asignacion.create(params);
                 if (newasignacion) {
                     return res.status(200).send({
                         status: 'success',
@@ -141,12 +141,6 @@ class AsignacionController {
             try {
                 let resul = yield asignacion_1.Asignacion.findAll({
                     where: { cod_emp: id },
-                    include: {
-                        model: asignacion_1.Detalle_asig,
-                        include: [{
-                                model: articulo_1.Articulo
-                            }]
-                    },
                     offset: Number(desde),
                     limit: Number(limite),
                 });
@@ -154,6 +148,27 @@ class AsignacionController {
                     status: 'success',
                     resul
                 });
+            }
+            catch (error) {
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error al listar',
+                    error
+                });
+            }
+        });
+    }
+    static pdfEmpleAsig(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let id = req.params.id;
+            try {
+                let consulta = yield bd_1.db.query(`SELECT d.cod_asig, e.cod_emp, e.nombre as n_empleado, e.dni, ar.cod_art, ar.nombre FROM detalle_asig as d INNER JOIN asignacion as a ON a.cod_asig = d.cod_asig INNER JOIN empleado as e ON e.cod_emp = a.cod_emp INNER JOIN articulo as ar ON d.cod_art = ar.cod_art WHERE d.cod_asig = ${id}`);
+                if (consulta.length > 0) {
+                    return res.status(200).send({
+                        status: 'success',
+                        datos: consulta[0]
+                    });
+                }
             }
             catch (error) {
                 return res.status(400).send({

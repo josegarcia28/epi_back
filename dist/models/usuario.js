@@ -3,22 +3,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Usuario = void 0;
 const sequelize_1 = require("sequelize");
 const bd_1 = require("../bd/bd");
-exports.Usuario = bd_1.db.define('Usuario', {
+exports.Usuario = bd_1.db.define('usuario', {
     uid: {
         type: sequelize_1.DataTypes.STRING(100),
-        primaryKey: true,
+        allowNull: false,
     },
     nombre: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
-    token: {
+    password: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
+    token: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+    },
     email: {
         type: sequelize_1.DataTypes.STRING(100),
-        allowNull: false,
+        primaryKey: true,
     },
     img: {
         type: sequelize_1.DataTypes.STRING,

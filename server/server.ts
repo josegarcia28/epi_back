@@ -3,6 +3,14 @@ import path = require('path');
 
 var morgan = require('morgan');
 
+declare global {
+  namespace Express {
+    interface Request {
+      uid?: string
+    }
+  }
+}
+
 export default class Server {
   public app: Application;
   public port: string;

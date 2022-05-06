@@ -1,4 +1,4 @@
-import { DataTypes, INTEGER } from 'sequelize';
+import { DataTypes, Model, Optional } from 'sequelize';
 import { db } from '../bd/bd';
 import { Almacen } from './almacen';
 import { Articulo } from './articulo';
@@ -7,7 +7,8 @@ import { Empleado } from './empleado';
 
  export const Asignacion = db.define('asignacion',{
     cod_asig: {
-        type: DataTypes.STRING(6),
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     }, 
     fecha: {

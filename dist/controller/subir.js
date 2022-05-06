@@ -31,13 +31,13 @@ class CargarFile {
             const tiposValidos = ['articulo', 'empleado', 'usuario'];
             if (!tiposValidos.includes(tipo)) {
                 return res.status(200).send({
-                    status: 'error',
+                    status: false,
                     mensaje: 'Tipo no contemplado para cargar archivo',
                 });
             }
             if (!req.files || Object.keys(req.files).length === 0) {
                 return res.status(200).send({
-                    status: 'error',
+                    status: false,
                     mensaje: 'No se cargo ningún archivo',
                 });
             }
@@ -49,60 +49,39 @@ class CargarFile {
                     const extensionesValidas = ['png', 'jpg', 'jpeg', 'gif'];
                     if (!extensionesValidas.includes(extensionArchivo)) {
                         return res.status(400).json({
-                            ok: false,
-                            msg: 'No es una extensión permitida'
+                            status: false,
+                            mensaje: 'No es una extensión permitida'
                         });
                     }
                     const nombreArchivo = `${(0, uuid_1.v4)()}.${extensionArchivo}`;
-                    const path = `./dist/uploads/${tipo}/${nombreArchivo}`;
+                    const path = `./uploads/${tipo}/${nombreArchivo}`;
                     // Mover la imagen
                     fileField.mv(path, (err) => {
                         if (err) {
                             console.log(err);
                             return res.status(500).json({
-                                ok: false,
-                                msg: 'Error al mover la imagen'
+                                status: false,
+                                mensaje: 'Error al mover la imagen'
                             });
                         }
                     });
                     let result = yield actualizar_imagen_1.default.subir(tipo, id, nombreArchivo);
                     if (!result) {
                         return res.status(200).send({
-                            status: 'error',
+                            status: false,
                             mensaje: 'No se pude actualizar la imagen',
                             result
                         });
                     }
                     //console.log(result);
                     return res.status(200).send({
-                        status: 'success',
+                        status: true,
                         img: nombreArchivo,
                         mensaje: 'Se actualizo la imagen correctamente',
                         result
                     });
                 }
             }
-            /*try{
-                let buscar = await Articulo.update(params, {where: { cod_art: id}});
-                if(buscar){
-                    return res.status(200).send({
-                        status: 'success',
-                        mensaje: 'se ha actualizado correctamente',
-                    });
-                } else {
-                    return res.status(200).send({
-                        status: 'success',
-                        mensaje: 'Articulo no encontrado',
-                    });
-                }
-                
-            } catch(error) {
-                console.log(error);
-                return res.status(400).send({
-                    status: 'error',
-                    mensaje: 'Error en actualizacion'
-                });
-            }*/
         });
     }
     static retornaImage(req, res) {
@@ -110,7 +89,6 @@ class CargarFile {
             const tipo = req.params.tipo;
             const foto = req.params.foto;
             const pathImg = path_1.default.join(__dirname, `../uploads/${tipo}/${foto}`);
-            //console.log(pathImg);
             // imagen por defecto
             if ((0, fs_1.existsSync)(pathImg)) {
                 res.sendFile(pathImg);

@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const asignacion_1 = require("../models/asignacion");
+const bd_1 = require("../bd/bd");
 class Detalle_asigController {
     static save(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -163,6 +164,26 @@ class Detalle_asigController {
                     status: 'success',
                     buscar_deta
                 });
+            }
+            catch (error) {
+                return res.status(400).send({
+                    status: 'error',
+                    mensaje: 'Error al listar detalles'
+                });
+            }
+        });
+    }
+    static list2(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let cod = req.params.id;
+            try {
+                let consulta = yield bd_1.db.query(`SELECT d.cod_asig, ar.cod_art, ar.nombre, a.nombre as n_almacen, d.cantidad FROM detalle_asig as d INNER JOIN almacen as a ON a.cod_alm = d.cod_alm INNER JOIN articulo as ar ON d.cod_art = ar.cod_art WHERE d.cod_asig = ${cod}`);
+                if (consulta.length > 0) {
+                    return res.status(200).send({
+                        status: 'success',
+                        buscar_deta: consulta[0]
+                    });
+                }
             }
             catch (error) {
                 return res.status(400).send({

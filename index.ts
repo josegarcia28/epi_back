@@ -14,6 +14,7 @@ import routerSubir from './routes/subir.routes';
 import routerCompra from './routes/entrada.routes';
 import routerProveedor from './routes/proveedor.routes';
 import routerDetalle_entra from './routes/detalle_entra.routes';
+import routerUsuario from './routes/usuario.routes';
 
 
 const server = Server.init();
@@ -37,6 +38,7 @@ server.app.use((req: any, res: any, next) => {
 
 // Rutas
 server.app.use( routerLogin );
+server.app.use( routerUsuario );
 server.app.use( routerEmpleado );
 server.app.use( routerArticulo );
 server.app.use( routerAsignacion );

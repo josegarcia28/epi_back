@@ -94,20 +94,37 @@ class EmpleadoController {
     }*/
     static list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { limite = 5, desde = 0 } = req.query;
+            const { limite = 0, desde = 0 } = req.query;
             try {
-                const [empleado, total] = yield Promise.all([
-                    empleado_1.Empleado.findAll({
-                        offset: Number(desde),
-                        limit: Number(limite)
-                    }),
-                    empleado_1.Empleado.count()
-                ]);
-                return res.status(200).send({
-                    status: 'success',
-                    total,
-                    empleado
-                });
+                if (limite === 0) {
+                    const [empleado, total] = yield Promise.all([
+                        empleado_1.Empleado.findAll({
+                            where: { estatus: 1 },
+                            offset: Number(desde)
+                        }),
+                        empleado_1.Empleado.count({ where: { estatus: 1 } })
+                    ]);
+                    return res.status(200).send({
+                        status: 'success',
+                        total,
+                        empleado
+                    });
+                }
+                else {
+                    const [empleado, total] = yield Promise.all([
+                        empleado_1.Empleado.findAll({
+                            where: { estatus: 1 },
+                            offset: Number(desde),
+                            limit: Number(limite)
+                        }),
+                        empleado_1.Empleado.count({ where: { estatus: 1 } })
+                    ]);
+                    return res.status(200).send({
+                        status: 'success',
+                        total,
+                        empleado
+                    });
+                }
             }
             catch (error) {
                 return res.status(400).send({

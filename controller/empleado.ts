@@ -1,7 +1,4 @@
 import { Request, Response } from 'express';
-import { Sequelize } from 'sequelize/types';
-import { Articulo } from '../models/articulo';
-import { Detalle_asig } from '../models/asignacion';
 import {Empleado} from '../models/empleado';
 
 export default class EmpleadoController {
@@ -85,20 +82,36 @@ export default class EmpleadoController {
     }*/
 
     static async list(req: Request, res: Response){
-        const { limite = 5, desde = 0 } = req.query;
+        const { limite = 0, desde = 0 } = req.query;
         try{
-            const [empleado, total] = await Promise.all([
-                Empleado.findAll({
-                    offset: Number(desde), 
-                    limit: Number(limite)
-                }),
-                Empleado.count()
-            ]);
-            return res.status(200).send({
-                status: 'success',
-                total,
-                empleado
-            });
+            if(limite === 0){
+                const [empleado, total] = await Promise.all([
+                    Empleado.findAll({
+                        where: {estatus: 1},
+                        offset: Number(desde)
+                    }),
+                    Empleado.count({where: {estatus: 1}})
+                ]);
+                return res.status(200).send({
+                    status: 'success',
+                    total,
+                    empleado
+                });
+            } else {
+                const [empleado, total] = await Promise.all([
+                    Empleado.findAll({
+                        where: {estatus: 1},
+                        offset: Number(desde), 
+                        limit: Number(limite)
+                    }),
+                    Empleado.count({where: {estatus: 1}})
+                ]);
+                return res.status(200).send({
+                    status: 'success',
+                    total,
+                    empleado
+                });
+            }
         } catch (error){
             return res.status(400).send({
                 status: 'error',

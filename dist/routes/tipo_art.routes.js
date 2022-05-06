@@ -10,7 +10,6 @@ const tipo_art_1 = __importDefault(require("../controller/tipo_art"));
 const routerTipo_art = (0, express_1.Router)();
 // tipo_art
 routerTipo_art.post('/api/tipo_art/new', [
-    (0, express_validator_1.check)('cod_tipo', 'Falta el cod_tipo').notEmpty(),
     (0, express_validator_1.check)('nombre', 'Falta el nombre').notEmpty(),
     validar_campo_1.default.Campo,
 ], tipo_art_1.default.save);

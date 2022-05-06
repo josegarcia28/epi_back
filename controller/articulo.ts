@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Articulo } from '../models/articulo';
 import Tipo_art from '../models/tipo_art';
-
+import { db } from '../bd/bd';
 
 export default class ArticuloController {
  
@@ -178,6 +178,26 @@ export default class ArticuloController {
                 status: 'success',
                 result
             });
+        } catch (error){
+            return res.status(400).send({
+                status: 'error',
+                mensaje: 'Error al listar'
+            }); 
+        }
+       
+    }
+
+    static async generarCodigo(req: Request, res: Response){
+        let ini = req.params.ini;
+        try{
+            let consulta = await db.query(`SELECT CONCAT(SUBSTRING(MAX(cod_art), 1,3) , LPAD(SUBSTRING(MAX(cod_art), 4,3) + 1,3,'0')) as numero FROM articulo WHERE SUBSTRING(cod_art, 1,3) = ${ini}`)
+            
+            if(consulta.length > 0) {
+                return res.status(200).send({
+                    status: 'success',
+                    datos: consulta[0]
+                });
+            }
         } catch (error){
             return res.status(400).send({
                 status: 'error',

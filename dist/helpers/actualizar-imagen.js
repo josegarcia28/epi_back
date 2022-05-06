@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
+const usuario_1 = require("../models/usuario");
 const empleado_1 = require("../models/empleado");
 const articulo_1 = require("../models/articulo");
 const borrarImagen = (path) => {
@@ -81,6 +82,32 @@ class Actualizar {
                     }
                     break;
                 case 'usuario':
+                    try {
+                        let rEmp = yield usuario_1.Usuario.findOne({
+                            where: { email: id }
+                        });
+                        if (!rEmp) {
+                            console.log('No existe el email del Empleado');
+                        }
+                        pathViejo = `./uploads/usuario/${rEmp.img}`;
+                        if (rEmp.img != '' || rEmp.img.length != 0) {
+                            borrarImagen(pathViejo);
+                        }
+                        let rGuardar = yield usuario_1.Usuario.update({ img: nombreArchivo }, {
+                            where: { email: id }
+                        });
+                        if (rGuardar) {
+                            status = true;
+                        }
+                        else {
+                            console.log('No se pudo actualizar el Empleado');
+                        }
+                    }
+                    catch (error) {
+                        status = false;
+                        console.log(error);
+                        console.log('error en la actualización');
+                    }
                     break;
             }
             return status;

@@ -11,8 +11,11 @@ export const Empleado = db.define('empleado',{
         type: new DataTypes.STRING(100),
         allowNull: false,
     },
-    apellido: {
-        type: DataTypes.STRING(100),
+    dni: {
+        type: new DataTypes.STRING(15)
+    },
+    estatus: {
+        type: DataTypes.TINYINT,
         allowNull: false,
     },
     descripcion: {
@@ -31,6 +34,22 @@ export const Empleado = db.define('empleado',{
         allowNull: false,
     },
     t_guante: {
+        type: new DataTypes.STRING(5),
+        allowNull: false,
+    },
+    t_chaleco: {
+        type: new DataTypes.STRING(5),
+        allowNull: false,
+    },
+    t_jersey: {
+        type: new DataTypes.STRING(5),
+        allowNull: false,
+    },
+    t_cazadora: {
+        type: new DataTypes.STRING(5),
+        allowNull: false,
+    },
+    t_buzo: {
         type: new DataTypes.STRING(5),
         allowNull: false,
     },

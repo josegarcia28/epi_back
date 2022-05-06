@@ -20,6 +20,7 @@ routerDetalle_asig.post('/api/detalle_asig/new',
 ); 
 routerDetalle_asig.put('/api/detalle_asig', Detalle_asigController.update_ren);
 routerDetalle_asig.get('/api/detalle_asig/list/:id',Detalle_asigController.list); 
+routerDetalle_asig.get('/api/detalle_asig/list2/:id',Detalle_asigController.list2); 
 routerDetalle_asig.get('/api/detalle_asig/:id',Detalle_asigController.detailId); 
 routerDetalle_asig.delete('/api/detalle_asig/:id', validarJwt.Campo, Detalle_asigController.delete);
 

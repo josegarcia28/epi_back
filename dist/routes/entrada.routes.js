@@ -10,7 +10,6 @@ const entrada_1 = __importDefault(require("../controller/entrada"));
 const routerCompra = (0, express_1.Router)();
 // Compra
 routerCompra.post('/api/compra/new', [
-    (0, express_validator_1.check)('cod_entra', 'Falta el codigo de entrada').notEmpty(),
     (0, express_validator_1.check)('fecha', 'Falta el fecha').notEmpty(),
     (0, express_validator_1.check)('responsable', 'Falta el responsable').notEmpty(),
     (0, express_validator_1.check)('descripcion', 'Falta el descripcion').notEmpty(),

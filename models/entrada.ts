@@ -7,7 +7,8 @@ import { Proveedor } from './proveedor';
 
  export const Entrada = db.define('entrada',{
     cod_entra: {
-        type: DataTypes.STRING(6),
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     }, 
     fecha: {
@@ -37,7 +38,7 @@ export const Detalle_entra = db.define('detalle_entra',{
             allowNull: false,
         }, 
         cod_entra: {
-            type: DataTypes.STRING(6),
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         cod_art: {
